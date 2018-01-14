@@ -1,0 +1,91 @@
+Project Report
+Satvik Anand
+404823011
+
+a)
+The board is represented by a two dimensional array with MAXROWS rows and MAXROWS columns.
+There are two specially made classes: GameShip and BoardShip.
+GameShip is a class which enables the game to keep track of IDs, lengths and names of different ships. Objects of this type are stored in GameImpl in a vector of GameShips.
+BoardShip is a class which enables the Board to keep track of IDs, whether the ship has been destroyed or not and the ship symbol of the ship. It is stored a private member in BoardImpl as a vector of BoardShips.
+Shots are recorded by reducing the length of the BoardShip every time that ship is attacked, so the ship is destroyed when the length is 0.
+
+c) The mediocre player uses two functions to place its ships - placeShips and recursivePlace.
+
+recursivePlace - takes shipId and board as parameters
+    if ID is less than 0
+	return true
+    
+    if ID is invalid 
+        return false
+
+    create a counter variable representing number of attempts to place ships
+    loop through the rows of the board 
+        loop through the columns of the board 
+            increment the counter 
+            if able to place ship of ID shipId vertically
+                return recursivePlace of higher shipId
+            else if able to place ship of ID shipId horizontally
+                return recursivePlace of higher shipId
+            else if the point is the last point on the board 
+                loop through rows
+                    loop through columns
+                        unplace previous placed ship which is either horizontally or vertically                        
+            else restart the loop
+
+    if counter variable is greater than 50
+        return false
+    
+    return true
+
+
+placeShips - takes board as parameter 
+    block half the board
+
+    create a boolean to ensure that the aircraft carrier is placed
+    loop through the rows
+        create a flag variable
+        loop through the columns
+            if the ship can be placed either horizontally or vertically, set the flag to a 	    different value, and set the placement boolean to true            
+        if the flag is a different value break
+    
+    if you’re unable to place the big ship
+        return false
+    
+    
+    use the recursive function for the rest of the ships that is a higher ship ID
+    
+    unblock half the board
+    return true
+
+Recommend attack 
+    if the attack is 0
+        randomly attack anywhere on the board
+    else
+        create boolean to check if the point attacked is good
+        as long as the point attacked is not good
+            choose a random number between 0 and 1
+            if this number is 0
+                choose a random point along the horizontal of this point
+      
+            if this number is 1
+                choose a random point along the vertical of this point 
+            
+            boolean to check if the point has been already attacked
+            loop through the set of attacked points 
+                if you find that the point has already been attacked, break out of this        
+                loop and restart the other one 
+            
+            if the row and column coordinates of the point are not on the board and the    
+            value has not already been attacked 
+                set the bool to check if the point is good to true
+    
+    return the newly created point 
+
+RecordAttackResult - takes a point, 2 booleans and 1 integer as parameters
+    pushback onto the vector of attacked points the last attacked point
+    
+    if validShot and shotHit are true while shipDestroyed is false
+        set the state to 1 
+    
+    if the validShot and shotHit and shipDestroyed are all true
+        set the state to 0

@@ -1,0 +1,52 @@
+Satvik Anand
+404-823-011
+Report for project 4
+
+Data structures and algorithms:
+In this project, I have two main data structures.
+The first one is a hash table that keeps track of the various line numbers and bucket IDs. Each bucket contains a custom structure Bucket which contains a vector of another custom structure Node. The Node structure contains a string for the ID and an integer for the line number. Every time the declare function is called, a new item is added to the hash table using the hash function.
+The hash function maps each string ID to a unique address in the hash table. It employs an algorithm that multiplies an int total with the ascii value of the character of the string at the index at which the iteration is at. It then adds this to the existing total at each iteration.
+The second main data structure I have is a stack of a custom structure Scope. Each scope contains a vector of strings. The stack of scope’s top scope is scope in which is the program is in at any point of time. When a new scope is entered, a new item is added to the stack, and this item is removed when one exits the scope. 
+
+Time complexity:
+enterScope is constant time.
+exitScope is linear in terms of the number of items leaving the scope.
+declare is linear in terms of the number of items currently in the scope.
+find is linear in the number of identifiers currently accessible.
+
+Pseudocode:
+Hashfunction - takes a string ID as parameter 
+    set an integer total as 0
+    loops through the string
+        make total equal to the sum of total and the product of total with the ascii value 	of the string character at that iteration
+    return modulus of total with the size of the hash table
+
+exitScope
+    if we’re at the first scope or if there are no scopes, return false
+    loop through the values in the top item in scope and remove their corresponding items      
+    in the hash table
+    pop the current scope
+
+declare - takes a string ID and int line number as parameters 
+    if a scope hasn’t been created yet, push a scope to the stack of scopes
+    loop through the top item in the stack of scopes
+        if we find an empty vector in the top scope
+	     exit the loop
+        if we find that the ID has already been inserted
+	     return false
+    push the string ID onto the last vector in the top item of the stack
+    Create a temporary Node object with ID and line number as parameters
+    Push this node into the hash table using the hash function to map its index
+    return true
+
+find - takes a string ID as parameter 
+    if the string is empty
+	return -1
+    create an integer hashValue equal to the result of the hash function on ID
+    loop through the hash table
+        if the value in the index matches ID
+	     return the line number associated with that index
+    return -1
+
+Problems and inefficiencies:
+There are no inefficiencies in my program and I did not encounter any major problems. 
